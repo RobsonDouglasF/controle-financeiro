@@ -159,15 +159,23 @@ app.get("/provento/:id", authMiddleware, (req, res) => {
 });
 
 app.post("/debito", authMiddleware, (req, res) => {
-  const { categoria, tipo, nome, valor, parcela } = req.body;
+  const { categoria, tipo, nome, valor, parcela, registro } = req.body;
   if (!categoria || !tipo || !nome || !valor) {
     return res.status(400).json({ message: "Preencha todos os campos" });
   }
   const sql =
-    "INSERT INTO debitos (usuario_id, categoria, tipo, nome, valor, parcela) VALUES (?,?,?,?,?,?)";
+    "INSERT INTO debitos (usuario_id, categoria, tipo, nome, valor, parcela, registro) VALUES (?,?,?,?,?,?,?)";
   db.query(
     sql,
-    [req.user.id, categoria, tipo, nome, valor, parcela || null],
+    [
+      req.user.id,
+      categoria,
+      tipo,
+      nome,
+      valor,
+      parcela || null,
+      registro || null,
+    ],
     (err) => {
       if (err) return res.status(500).json({ message: "Erro no servidor" });
       res.status(201).json({ message: "Debito cadastrado" });
