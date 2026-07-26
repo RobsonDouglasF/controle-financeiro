@@ -236,6 +236,7 @@ app.put("/provento/:id", authMiddleware, (req, res) => {
   const proventoId = req.params.id;
   const usuarioId = req.user.id;
   const { categoria, tipo, nome, frequencia, valor, registro } = req.body;
+  const registroFormatado = registro ? registro.slice(0, 10) : null;
   db.query(
     "SELECT * FROM proventos WHERE id = ? AND usuario_id = ?",
     [proventoId, usuarioId],
@@ -247,15 +248,7 @@ app.put("/provento/:id", authMiddleware, (req, res) => {
         "UPDATE proventos SET categoria=?, tipo=?, nome=?, frequencia=?, valor=?, registro=? WHERE id=?";
       db.query(
         sql,
-        [
-          categoria,
-          tipo,
-          nome,
-          frequencia,
-          valor,
-          registro || null,
-          proventoId,
-        ],
+        [categoria, tipo, nome, frequencia, valor, registroFormatado, proventoId],
         (err) => {
           if (err) return res.status(500).json({ message: "Erro no servidor" });
           res.json({ message: "Atualizado com sucesso" });
