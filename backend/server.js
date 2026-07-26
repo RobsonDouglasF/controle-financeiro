@@ -203,6 +203,7 @@ app.put("/debito/:id", authMiddleware, (req, res) => {
   const debitoId = req.params.id;
   const usuarioId = req.user.id;
   const { categoria, tipo, nome, valor, parcela, registro } = req.body;
+  const registroFormatado = registro ? registro.slice(0, 10) : null;
   db.query(
     "SELECT * FROM debitos WHERE id = ? AND usuario_id = ?",
     [debitoId, usuarioId],
@@ -220,7 +221,7 @@ app.put("/debito/:id", authMiddleware, (req, res) => {
           nome,
           valor,
           parcela || null,
-          registro || null,
+          registroFormatado,
           debitoId,
         ],
         (err) => {
