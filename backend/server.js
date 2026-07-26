@@ -183,15 +183,15 @@ app.post("/debito", authMiddleware, (req, res) => {
   );
 });
 app.post("/provento", authMiddleware, (req, res) => {
-  const { categoria, tipo, nome, frequencia, valor } = req.body;
+  const { categoria, tipo, nome, frequencia, valor, registro } = req.body;
   if (!categoria || !tipo || !nome || !frequencia || !valor) {
     return res.status(400).json({ message: "Preencha todos os campos" });
   }
   const sql =
-    "INSERT INTO proventos (usuario_id, categoria, tipo, nome, frequencia, valor) VALUES (?,?,?,?,?,?)";
+    "INSERT INTO proventos (usuario_id, categoria, tipo, nome, frequencia, valor, registro) VALUES (?,?,?,?,?,?,?)";
   db.query(
     sql,
-    [req.user.id, categoria, tipo, nome, frequencia, valor],
+    [req.user.id, categoria, tipo, nome, frequencia, valor, registro || null],
     (err) => {
       if (err) return res.status(500).json({ message: "Erro no servidor" });
       res.status(201).json({ message: "Provento cadastrado" });

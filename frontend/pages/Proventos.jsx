@@ -67,7 +67,7 @@ export default function PaginaProventos({ mesSelecionado }) {
       currency: "BRL",
     }).format(valor);
 
-    const excluirProvento = async (id) => {
+  const excluirProvento = async (id) => {
     if (window.confirm("Tem certeza que deseja excluir ?")) {
       try {
         await api.delete(`/provento/${id}`);
@@ -82,10 +82,8 @@ export default function PaginaProventos({ mesSelecionado }) {
     e.preventDefault();
     try {
       if (modalEditar.id) {
-       
         await api.put(`/provento/${modalEditar.id}`, modalEditar);
       } else {
-        
         await api.post(`/provento`, modalEditar);
       }
       setModalEditar(null);
@@ -99,37 +97,50 @@ export default function PaginaProventos({ mesSelecionado }) {
   };
 
   const novoProvento = () => {
-  setModalEditar({
-    nome: "",
-    categoria: "",
-    tipo: "Fixo",
-    valor: "",
-    frequencia: ""
-    
-  });
-};
+    const hoje = new Date().toISOString().slice(0, 10);
+    setModalEditar({
+      nome: "",
+      categoria: "",
+      tipo: "Fixo",
+      valor: "",
+      frequencia: "",
+      registro: hoje,
+    });
+  };
 
   return (
     <div className="px-5 w-full flex gap-5 py-5">
       <div className=" flex-1 ">
-        <CentralNav mesSelecionado={mesSelecionado} titulo="Proventos" textoBotao='Novo Provento' novo={novoProvento}/>
+        <CentralNav
+          mesSelecionado={mesSelecionado}
+          titulo="Proventos"
+          textoBotao="Novo Provento"
+          novo={novoProvento}
+        />
         <Dados
-          titulos={["Nome", "Categoria", "Tipo", "Frequencia", "Valor", "Ações"]}
+          titulos={[
+            "Nome",
+            "Categoria",
+            "Tipo",
+            "Frequencia",
+            "Valor",
+            "Ações",
+          ]}
           lista={proventos}
           formatarMoeda={formatarMoeda}
           btnExcluir={(id) => excluirProvento(id)}
           btnEditar={(item) => setModalEditar(item)}
         />
         <ModalProvento
-                  titulo={modalEditar?.id ? "Editar Provento" : "Novo Provento"}
-                  mesSelecionado={mesSelecionado}
-                  valores={modalEditar}
-                  onSubmit={salvarProvento}
-                  onFechar={() => setModalEditar(null)}
-                  onChange={(campo, valor) =>
-                    setModalEditar({ ...modalEditar, [campo]: valor })
-                  }
-                />
+          titulo={modalEditar?.id ? "Editar Provento" : "Novo Provento"}
+          mesSelecionado={mesSelecionado}
+          valores={modalEditar}
+          onSubmit={salvarProvento}
+          onFechar={() => setModalEditar(null)}
+          onChange={(campo, valor) =>
+            setModalEditar({ ...modalEditar, [campo]: valor })
+          }
+        />
       </div>
       <div className="flex flex-col gap-1 w-85 ">
         <CardResumo

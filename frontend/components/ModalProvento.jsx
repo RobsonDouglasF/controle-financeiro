@@ -3,7 +3,7 @@ import {
   ChartPie,
   Check,
   CircleDollarSign,
-  Copy
+  Copy,
 } from "lucide-react";
 
 export default function ModalProvento({
@@ -11,12 +11,10 @@ export default function ModalProvento({
   valores,
   onChange,
   onSubmit,
-  onFechar
+  onFechar,
 }) {
   if (!valores) return null;
 
-
- 
   return (
     <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
       <div className="bg-gray-100 rounded-2xl p-6 w-3xl flex flex-col gap-8 shadow-xl">
@@ -29,7 +27,7 @@ export default function ModalProvento({
                 <p className="font-semibold mb-2">Data</p>
                 <input
                   value={valores?.registro?.slice(0, 10) || ""}
-                  onChange={(e) => onChange("data", e.target.value)}
+                  onChange={(e) => onChange("registro", e.target.value)}
                   type="date"
                   name="data"
                   id="data"
@@ -99,7 +97,7 @@ export default function ModalProvento({
                     name="valor"
                     id="valor"
                     className="w-full bg-white rounded shadow p-2 pl-10 focus:outline-none"
-                    value={valores?.valor || ''}
+                    value={valores?.valor || ""}
                     onChange={(e) => onChange("valor", e.target.value)}
                   />
                 </div>
@@ -118,18 +116,17 @@ export default function ModalProvento({
                   <option value="Semanal">Semanal</option>
                   <option value="Diario">Diario</option>
                   <option value="Quinzenal">Quinzenal</option>
-                  <option value="Anual">Anual</option>                  
+                  <option value="Anual">Anual</option>
                   <option value="Unico">Unico</option>
                 </select>
               </span>
             </div>
-            
           </form>
           <div className="p-5 pr-10 w-110 bg-white rounded-2xl whitespace-nowrap flex flex-col gap-3 text-[11px] text-gray-500 shadow-xl">
             <h3 className="text-[12px] font-semibold text-black">
               Resumo do provento
             </h3>
-            
+
             <div className="flex gap-3 items-center mb-2">
               <Check className="bg-purple-100 w-10 h-10 rounded-xl p-2" />
               <span className="flex flex-col gap-1">
@@ -166,12 +163,9 @@ export default function ModalProvento({
               <ChartPie className="w-5" />
               <div>
                 <h1 className="font-semibold">Frequencia</h1>
-                <p>
-                 {valores?.frequencia || '—'}
-                </p>
+                <p>{valores?.frequencia || "—"}</p>
               </div>
             </span>
-            
           </div>
         </div>
         <div className="flex justify-end gap-3">
