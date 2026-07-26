@@ -202,7 +202,7 @@ app.post("/provento", authMiddleware, (req, res) => {
 app.put("/debito/:id", authMiddleware, (req, res) => {
   const debitoId = req.params.id;
   const usuarioId = req.user.id;
-  const { categoria, tipo, nome, valor, parcela } = req.body;
+  const { categoria, tipo, nome, valor, parcela, registro } = req.body;
   db.query(
     "SELECT * FROM debitos WHERE id = ? AND usuario_id = ?",
     [debitoId, usuarioId],
@@ -211,10 +211,18 @@ app.put("/debito/:id", authMiddleware, (req, res) => {
       if (result.length === 0)
         return res.status(403).json({ message: "Sem permissão para editar" });
       const sql =
-        "UPDATE debitos SET categoria=?, tipo=?, nome=?, valor=?, parcela=? WHERE id=?";
+        "UPDATE debitos SET categoria=?, tipo=?, nome=?, valor=?, parcela=?, registro=? WHERE id=?";
       db.query(
         sql,
-        [categoria, tipo, nome, valor, parcela || null, debitoId],
+        [
+          categoria,
+          tipo,
+          nome,
+          valor,
+          parcela || null,
+          registro || null,
+          debitoId,
+        ],
         (err) => {
           if (err) return res.status(500).json({ message: "Erro no servidor" });
           res.json({ message: "Atualizado com sucesso" });
@@ -226,7 +234,7 @@ app.put("/debito/:id", authMiddleware, (req, res) => {
 app.put("/provento/:id", authMiddleware, (req, res) => {
   const proventoId = req.params.id;
   const usuarioId = req.user.id;
-  const { categoria, tipo, nome, frequencia, valor } = req.body;
+  const { categoria, tipo, nome, frequencia, valor, registro } = req.body;
   db.query(
     "SELECT * FROM proventos WHERE id = ? AND usuario_id = ?",
     [proventoId, usuarioId],
@@ -235,10 +243,18 @@ app.put("/provento/:id", authMiddleware, (req, res) => {
       if (result.length === 0)
         return res.status(403).json({ message: "Sem permissão para editar" });
       const sql =
-        "UPDATE proventos SET categoria=?, tipo=?, nome=?, frequencia=?, valor=? WHERE id=?";
+        "UPDATE proventos SET categoria=?, tipo=?, nome=?, frequencia=?, valor=?, registro=? WHERE id=?";
       db.query(
         sql,
-        [categoria, tipo, nome, frequencia, valor, proventoId],
+        [
+          categoria,
+          tipo,
+          nome,
+          frequencia,
+          valor,
+          registro || null,
+          proventoId,
+        ],
         (err) => {
           if (err) return res.status(500).json({ message: "Erro no servidor" });
           res.json({ message: "Atualizado com sucesso" });
