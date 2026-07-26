@@ -7,7 +7,15 @@ const jwt = require("jsonwebtoken");
 const path = require("path");
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://controle-financeiro-blue-zeta.vercel.app",
+    ],
+    credentials: true,
+  }),
+);
 app.use(express.json());
 
 const db = mysql.createConnection({
