@@ -41,12 +41,11 @@ export default function ModalDebito({
                 <p className="font-semibold mb-2">Data</p>
                 <input
                   value={valores?.registro?.slice(0, 10) || ""}
-                  onChange={(e) => onChange("data", e.target.value)}
+                  onChange={(e) => onChange("registro", e.target.value)}
                   type="date"
                   name="data"
                   id="data"
                   className="w-full bg-white rounded shadow p-2 focus:outline-none"
-                  readOnly
                 />
               </span>
               <span>

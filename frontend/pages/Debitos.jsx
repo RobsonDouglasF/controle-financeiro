@@ -71,6 +71,7 @@ const novoDebito = () => {
     valor: "",
     parcela: "",
     parcelado: false,
+    registro: new Date().toISOString().slice(0, 10),
   });
 };
 
