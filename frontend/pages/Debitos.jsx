@@ -47,10 +47,8 @@ export default function PaginaDebito({ mesSelecionado }) {
     e.preventDefault();
     try {
       if (modalEditar.id) {
-       
         await api.put(`/debito/${modalEditar.id}`, modalEditar);
       } else {
-        
         await api.post(`/debito`, modalEditar);
       }
       setModalEditar(null);
@@ -63,17 +61,18 @@ export default function PaginaDebito({ mesSelecionado }) {
     }
   };
 
-const novoDebito = () => {
-  setModalEditar({
-    nome: "",
-    categoria: "",
-    tipo: "Fixo",
-    valor: "",
-    parcela: "",
-    parcelado: false,
-    registro: new Date().toISOString().slice(0, 10),
-  });
-};
+  const novoDebito = () => {
+    const hoje = new Date().toISOString().slice(0, 10);
+    setModalEditar({
+      nome: "",
+      categoria: "",
+      tipo: "Fixo",
+      valor: "",
+      parcela: "",
+      parcelado: false,
+      registro: hoje,
+    });
+  };
 
   const maiorCategoria = () => {
     if (debitos.length === 0) return { nome: "Nenhuma", valor: 0 };
@@ -106,12 +105,15 @@ const novoDebito = () => {
   const qtdVariavel = debitos.filter((item) => item.tipo === "Variavel").length;
   const tipos = debitoFixo();
 
-  
-
   return (
     <div className=" px-5 w-full flex gap-5 py-5">
       <div className=" flex-1 ">
-        <CentralNav mesSelecionado={mesSelecionado} novo={novoDebito} titulo='Debitos' textoBotao='Novo Debito'/>
+        <CentralNav
+          mesSelecionado={mesSelecionado}
+          novo={novoDebito}
+          titulo="Debitos"
+          textoBotao="Novo Debito"
+        />
         <Dados
           titulos={["Nome", "Categoria", "Tipo", "Parcela", "Valor", "Ações"]}
           lista={debitos}
